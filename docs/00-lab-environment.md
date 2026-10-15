@@ -1,6 +1,6 @@
 # Lab Environment
 
-Record of how the lab is set up, so anyone can rebuild it from this page. No passwords or secrets go in this file.
+Record of how the lab is set up, no confidential Vault-Tec secrets here. 
 
 ## Identity provider
 
@@ -10,7 +10,7 @@ Record of how the lab is set up, so anyone can rebuild it from this page. No pas
 |Org created|2026-10-15|
 |Admin model|One super admin account used for administration only; all testing done as test users|
 
-Note: Integrator Free Plan orgs expire after 90 consecutive days of inactivity.
+Note: Integrator Free Plan orgs expire after 90 consecutive days of inactivity, someone keep the coffee running.
 
 ## Groups
 
