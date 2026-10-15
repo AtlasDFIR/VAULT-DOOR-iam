@@ -2,7 +2,7 @@
 
 Hands-on identity and access management (IAM) lab built on Okta. I set up a working single sign-on (SSO) environment from scratch, integrated a test application over OpenID Connect (OIDC) and a second over Security Assertion Markup Language (SAML), and enforced group-based access and multi-factor authentication (MFA) policy on top of both.
 
-I work as an incident response analyst in a federal Security Operations Center (SOC). Most of the incidents I handle start with an identity: a phished credential, a suspicious sign-in, an account that had more access than it needed. This project is the other side of that work. Instead of investigating what happens when access controls fail, I'm building and testing the controls.
+I work as an incident response analyst in a federal Security Operations Center (SOC). Most of the incidents I handle start with an identity: a phished credential, a suspicious sign-in, an account that had more access than it needed. This project is the other side of that work. Instead of investigating what happens when access controls fail, I'm building and testing the controls to get some practice! :)
 
 ## What this lab covers
 
@@ -44,7 +44,7 @@ VAULT-DOOR-iam/
 
 ## Secrets handling
 
-No credentials, client secrets, API tokens, or private keys are committed to this repository. Configuration is read from a local `.env` file that `.gitignore` excludes, and `.env.example` documents the expected variables with placeholder values. Screenshots in `evidence/` are reviewed and redacted before commit.
+No credentials, client secrets, API tokens, or private keys are committed to this repository. Configuration is read from a local `.env` file that `.gitignore` excludes, and `.env.example` documents the expected variables with placeholder values. Screenshots in `evidence/` are reviewed and redacted before commit, no Enclave spies allowed!
 
 ## Progress
 
