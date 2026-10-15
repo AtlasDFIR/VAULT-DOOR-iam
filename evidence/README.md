@@ -2,14 +2,12 @@
 
 Screenshots proving each part of the lab works, organized by part.
 
-## Before committing any screenshot
+## Enclave Spies Beware!
 
-- [ ] No passwords, client secrets, API tokens, or session cookies visible
-- [ ] No full tokens visible (truncate ID and access tokens before capturing)
-- [ ] Browser tabs, bookmarks, and notifications cropped out
-- [ ] Nothing from my employer's environment anywhere in the image
-
-Raw, unredacted captures go in a `raw/` folder inside each part's folder. `.gitignore` keeps those out of the repository.
+- [ ] No passwords, client secrets, API tokens, or session cookies are visible
+- [ ] No full tokens visible (IDs and access tokens are truncated before capture)
+- [ ] Console tabs, bookmarks, and communications cropped out
+- [ ] Nothing from Vault lab environment anywhere in the image
 
 ## Index
 
