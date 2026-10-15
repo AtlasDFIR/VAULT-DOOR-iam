@@ -9,7 +9,7 @@ I work as an incident response analyst in a federal Security Operations Center (
 | Area | What I built | Status |
 | --- | --- | --- |
 | Directory | Okta org with role-based groups and test users | Done |
-| OIDC | Local web app using the authorization code flow with PKCE (Proof Key for Code Exchange), with every token claim documented | Part 2 |
+| OIDC | Local web app using the authorization code flow with PKCE (Proof Key for Code Exchange), with every token claim documented | Done |
 | SAML | Containerized service provider (SP) trusting Okta as the identity provider (IdP), with a full assertion walkthrough | Part 3 |
 | Access policy | Group-based app assignment, MFA sign-on policy, and a tested deny case | Part 4 |
 | Compliance mapping | Controls mapped to NIST SP 800-53 Access Control (AC) and Identification and Authentication (IA) families | Part 4 |
@@ -49,6 +49,6 @@ No credentials, client secrets, API tokens, or private keys are committed to thi
 ## Progress
 
 - [x] Part 1: Okta org, groups, test users, Docker environment, repository scaffold
-- [ ] Part 2: OIDC integration
+- [x] Part 2: OIDC integration
 - [ ] Part 3: SAML integration
 - [ ] Part 4: Access policy, MFA, and NIST SP 800-53 mapping

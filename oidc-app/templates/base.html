@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}VAULT-DOOR{% endblock %}</title>
+  <style>
+    :root {
+      --bg: #0b130c;
+      --panel: #111d12;
+      --line: #24402a;
+      --text: #b8f5c0;
+      --dim: #6fae7a;
+      --bright: #e6ffe9;
+      --warn: #ffcf6e;
+      --bad: #ff8a7a;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font: 15px/1.55 "Cascadia Mono", Consolas, "Courier New", monospace;
+    }
+    header {
+      border-bottom: 1px solid var(--line);
+      padding: 14px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    header .brand { color: var(--bright); font-weight: 700; letter-spacing: 0.08em; }
+    header nav a { margin-left: 18px; }
+    main { max-width: 1100px; margin: 0 auto; padding: 28px 24px 60px; }
+    a { color: var(--bright); }
+    h1, h2 { color: var(--bright); font-weight: 700; letter-spacing: 0.03em; }
+    h1 { font-size: 1.5rem; margin-top: 0; }
+    h2 { font-size: 1.1rem; margin-top: 2.2rem; border-bottom: 1px solid var(--line); padding-bottom: 6px; }
+    .panel { background: var(--panel); border: 1px solid var(--line); padding: 18px 20px; margin: 16px 0; }
+    .dim { color: var(--dim); }
+    .warn { color: var(--warn); }
+    .bad { color: var(--bad); }
+    .button {
+      display: inline-block;
+      border: 1px solid var(--text);
+      padding: 10px 18px;
+      text-decoration: none;
+      color: var(--bright);
+      margin-right: 10px;
+    }
+    .button:hover { background: var(--line); }
+    table { width: 100%; border-collapse: collapse; margin-top: 8px; }
+    th, td { text-align: left; vertical-align: top; padding: 8px 10px; border-bottom: 1px solid var(--line); }
+    th { color: var(--dim); font-weight: 400; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 0.06em; }
+    td.claim { color: var(--bright); white-space: nowrap; }
+    td.value { word-break: break-all; }
+    td.note { color: var(--dim); font-size: 0.88rem; }
+    code, pre { color: var(--bright); }
+    pre { background: var(--bg); border: 1px solid var(--line); padding: 12px; overflow-x: auto; white-space: pre-wrap; word-break: break-all; }
+    @media (max-width: 700px) { td.note { display: none; } th.note { display: none; } }
+  </style>
+</head>
+<body>
+  <header>
+    <span class="brand">VAULT-DOOR // OIDC TERMINAL</span>
+    <nav>
+      <a href="{{ url_for('index') }}">Home</a>
+      {% if session.get('sid') %}
+        <a href="{{ url_for('tokens') }}">Token inspector</a>
+        <a href="{{ url_for('logout') }}">Sign out</a>
+      {% endif %}
+    </nav>
+  </header>
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+</body>
+</html>
