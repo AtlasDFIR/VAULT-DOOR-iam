@@ -8,8 +8,8 @@ Both VAULT-DOOR apps share one Okta app sign-in policy, `VAULT-DOOR Access`. Okt
 
 |Priority|Rule|Applies to|Requirement|Re-authentication|
 |-|-|-|-|-|
-|1|Overseer clearance|`Vault101-Security`|Phishing-resistant possession factor with PIN or biometric verification|Every time the user signs in to an app|
-|2|Resident access|`Vault101-Residents`|Phishing-resistant possession factor with PIN or biometric verification|Only after 2 hours since the last sign-in|
+|1|Overseer clearance|`Vault101-Security`|Phishing-resistant possession factor with user interaction (passkey or Okta FastPass)|Every time the user signs in to an app|
+|2|Resident access|`Vault101-Residents`|Phishing-resistant possession factor with user interaction (passkey or Okta FastPass)|Only after 2 hours since the last sign-in|
 |Last|Catch-all|Everyone else|Access denied|Not applicable|
 
 The design follows three principles:
@@ -23,14 +23,18 @@ The design follows three principles:
 |Test|What I did|Expected|Observed|
 |-|-|-|-|
 |Resident SSO|Jesse signs in to the OIDC app, then opens the SAML app in the same window|SAML app opens with no new prompt|*SAML session saw no prompt*|
-|Overseer re-authentication|Morgan signs in to the OIDC app, then opens the SAML app in the same window|Okta prompts for the passkey again|*see finding below*|
+|Overseer re-authentication|Morgan signs in to the OIDC app, then opens the SAML app in the same window|Okta prompts for the passkey again|*Prompted, after the 10-second grace period (see below)*|
 |Mover|Remove Morgan from `Vault101-Security`, sign in fresh|`groups` shows only Residents, no re-prompt between apps|*Groups only showed 'Residents'*|
 |Leaver, new sign-in|Suspend Jesse, then try to sign in|Okta refuses|*User denied access*|
-|Leaver, existing session|Suspend Jesse while already signed in to an app|*see notes below*|*Session was unaware of update*|
+|Leaver, existing session|Suspend Jesse while already signed in to an app|*see finding below*|*Session was unaware of update*|
 
-## Lifecycle finding: suspending the user doesn't end existing app sessions
+## Finding: re-authentication has a 10-second grace period
 
-*Initial testing demonstrated that opening the SAML within a 10-second grace period of successful authentication within the OIDC terminal requires no prompt for reverification. Follow-up testing implemented a 30-second pause, and then successful asked for reverification when trying to authenticate with the SAML application.*
+Initial testing demonstrated that opening the SAML app within 10 seconds of successful authentication in the OIDC app required no prompt for reverification. Follow-up testing added a 30-second pause, and Okta then successfully asked for reverification when Morgan opened the SAML app. Okta's "Every time user signs in to resource" setting includes this grace period by design. It looked like a policy failure until I retested with a delay, so it's worth knowing when testing or explaining the control.
+
+## Finding: suspending the user doesn't end existing app sessions
+
+The session was unaware of the update to the user. After I suspended Jesse in Okta, the OIDC app still opened and displayed all of Jesse's token information when I clicked *Inspect tokens*. Only when I signed out and tried to sign back in did the suspension take effect, and Okta refused access.
 
 Disabling an account at the identity provider (IdP) stops new sign-ins immediately. It does not reach into an app and end a session the app already created. Both VAULT-DOOR apps keep their own session after sign-in and never check back with Okta, so a suspended user can keep using an app until that session ends on its own.
 
@@ -53,14 +57,11 @@ Okta records every step of these tests. The event types worth knowing:
 |Event|Meaning|
 |-|-|
 |`user.session.start`|User started an Okta session|
-|`policy.evaluate\_sign\_on`|Okta evaluated an app sign-in policy, including which rule matched|
+|`policy.evaluate_sign_on`|Okta evaluated an app sign-in policy, including which rule matched|
 |`user.authentication.sso`|User was signed in to an app|
-|`group.user\_membership.remove` / `add`|User left or joined a group|
+|`group.user_membership.remove` / `add`|User left or joined a group|
 |`user.lifecycle.suspend` / `unsuspend`|Account was suspended or restored|
 
 These are the events I would pull first in an investigation into a suspicious sign-in or an access complaint.
 
-## Notes
-
-- The session was unaware of the update to the user, and thus opened and displayed all information when I clicked into *Inspect tokens*. However, upon attempting to sign back in, then it was clear that the update had gone through and the user was now deactivated.
 

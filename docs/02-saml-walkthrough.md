@@ -92,3 +92,6 @@ The offline test signs assertions with a throwaway certificate and confirms the 
 
 - Sign-out in this app ends only the app's own session. Full SAML single logout (SLO) requires the SP to sign its logout requests with its own certificate, which is out of scope for this lab.
 - The SP downloads Okta's metadata at first sign-in. If Okta's signing certificate is ever rotated, restarting the container picks up the new one.
+- The assertion's AuthnContextClassRef was PasswordProtectedTransport even though the sign-in used a passkey. That value is a fixed setting on the Okta app, not a record of what happened, so it can't be used to prove how a user authenticated. The OIDC `amr` claim was the more accurate signal.
+- Okta refused Riley immediately after the username, before asking for a password. That avoids exposing a password, but Okta's message also confirms the username exists, which is a mild user-enumeration signal.
+- The SAML-tracer screenshot shows the full signed response. I assessed it as safe to publish: the certificate is public, and the assertion expired five minutes after issue, is restricted to `localhost:8000`, and is bound to a request ID that was already used, so it can't be replayed.

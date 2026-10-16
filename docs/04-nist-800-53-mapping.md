@@ -23,7 +23,7 @@ How this lab maps to NIST Special Publication (SP) 800-53 Revision 5 controls, w
 | Control | How the lab addresses it | Evidence | Status |
 | --- | --- | --- | --- |
 | IA-2 Identification and Authentication (Organizational Users) | Every user is uniquely identified by Okta (`sub` in OIDC, `NameID` in SAML) | Token and assertion inspectors | Implemented |
-| IA-2(1) Multi-factor Authentication to Privileged Accounts | `Vault101-Security` requires a phishing-resistant passkey with PIN or biometric verification | Policy rules, Morgan re-prompt test | Implemented |
+| IA-2(1) Multi-factor Authentication to Privileged Accounts | `Vault101-Security` requires a phishing-resistant possession factor with user interaction, and re-authentication on every app access | Policy rules, Morgan re-prompt test | Implemented |
 | IA-2(2) Multi-factor Authentication to Non-privileged Accounts | `Vault101-Residents` requires the same passkey standard | Policy rules | Implemented |
 | IA-2(8) Access to Accounts: Replay Resistant | PKCE, `nonce`, `state`, `InResponseTo`, short assertion windows, and passkeys bound to the origin | Offline tests reject replayed and unsolicited responses | Implemented |
 | IA-5(2) Public Key-based Authentication | Passkeys authenticate with a private key held in Windows Hello; the IdP stores only the public key | `amr` of `pop` | Implemented |

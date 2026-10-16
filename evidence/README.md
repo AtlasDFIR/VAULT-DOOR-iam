@@ -5,9 +5,9 @@ Screenshots proving each part of the lab works, organized by part.
 ## Enclave Spies Beware!
 
 - [ ] No passwords, client secrets, API tokens, or session cookies are visible
-- [ ] No full tokens visible (IDs and access tokens are truncated before capture)
+- [ ] No full tokens visible (ID tokens and access tokens are truncated before capture)
 - [ ] Console tabs, bookmarks, and communications cropped out
-- [ ] Nothing from Vault lab environment anywhere in the image
+- [ ] Nothing from my employer's environment anywhere in the image
 
 ## Index
 

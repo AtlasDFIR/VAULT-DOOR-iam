@@ -14,8 +14,8 @@ sequenceDiagram
     participant O as Okta (org authorization server)
 
     U->>A: Click "Enter the Vault"
-    A->>A: Generate state, nonce, and PKCE code\_verifier
-    A->>U: Redirect to Okta /authorize with code\_challenge (S256), state, nonce
+    A->>A: Generate state, nonce, and PKCE code_verifier
+    A->>U: Redirect to Okta /authorize with code_challenge (S256), state, nonce
     U->>O: Authorization request
     O->>U: Sign-in page
     U->>O: Username, password, and any required factor
@@ -23,8 +23,8 @@ sequenceDiagram
     O->>U: Redirect to /authorization-code/callback with code and state
     U->>A: Callback with code and state
     A->>A: Check state matches what was sent
-    A->>O: POST /token with code, code\_verifier, client credentials
-    O->>O: Hash code\_verifier, compare to code\_challenge
+    A->>O: POST /token with code, code_verifier, client credentials
+    O->>O: Hash code_verifier, compare to code_challenge
     O->>A: ID token and access token
     A->>A: Verify ID token signature (JWKS), iss, aud, exp, nonce
     A->>U: Signed in
@@ -35,7 +35,7 @@ sequenceDiagram
 |Control|Where it's checked|Attack it stops|
 |-|-|-|
 |`state`|App, on callback|Cross-site request forgery (CSRF) that logs a victim into an attacker's session|
-|PKCE `code\_verifier` / `code\_challenge`|Okta, at the token endpoint|A stolen authorization code being redeemed by anyone other than the app that requested it|
+|PKCE `code_verifier` / `code_challenge`|Okta, at the token endpoint|A stolen authorization code being redeemed by anyone other than the app that requested it|
 |`nonce`|App, inside the ID token|Replay of an old or stolen ID token|
 |ID token signature|App, against Okta's published keys (JWKS)|Forged or modified tokens|
 |`iss` and `aud`|App|Tokens minted by another issuer or for another app being accepted here|
@@ -64,9 +64,9 @@ sequenceDiagram
 |Privileged user signs in|Morgan Vale|Access granted, `groups` contains both Vault101 groups|*Successful authentication*|
 |Unassigned user signs in|Riley Crane|Okta refuses, app shows access denied|*Unsuccessful authentication, user not assigned*|
 |Sign out|Any|App and Okta sessions both end|*Successful sign off*|
-|Offline flow test|None|`py oidc-app/tests/test\_flow.py` reports 16/16|*16/16 reports observed*|
+|Offline flow test|None|`py oidc-app/tests/test_flow.py` reports 16/16|*16/16 reports observed*|
 
 ## Notes
 
-- The assertion's AuthnContextClassRef was PasswordProtectedTransport even though the sign-in used a passkey. That value is a fixed setting on the Okta app, not a record of what happened, so it can't be used to prove how a user authenticated. The OIDC `amr` claim was the more accurate signal.
+- The `amr` claim came back as `["pop"]` (proof of possession). For Jesse's sign-in on 2026-10-16, the Okta System Log shows Windows Hello as the only authenticator, with no password, so that token reflects a passwordless, phishing-resistant sign-in. The org's default policy only offered Okta Verify and Passkey as second factors, which ruled out weaker methods like email codes.
 
