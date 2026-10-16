@@ -1,0 +1,17 @@
+# Runs the SAML service provider for Part 3.
+# From the repository root:  docker compose up --build
+services:
+  saml-sp:
+    build: ./saml-sp
+    container_name: vault-door-saml
+    ports:
+      # Bound to this PC only, so nothing else on the network can reach the lab app.
+      - "127.0.0.1:8000:8000"
+    environment:
+      SAML_IDP_METADATA_URL: ${SAML_IDP_METADATA_URL}
+      FLASK_SECRET_KEY: ${FLASK_SECRET_KEY}
+    read_only: true
+    tmpfs:
+      - /tmp
+    security_opt:
+      - no-new-privileges:true

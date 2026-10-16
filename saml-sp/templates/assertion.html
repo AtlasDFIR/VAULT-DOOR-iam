@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block title %}Assertion inspector | VAULT-DOOR{% endblock %}
+{% block content %}
+<h1>Assertion inspector</h1>
+<p class="dim">Signed in at {{ a.signed_in_at }}.</p>
+<p class="warn">
+  Signatures and certificates are shown truncated. Before you screenshot this page for evidence,
+  confirm nothing sensitive is visible.
+</p>
+
+<h2>What this app checked before trusting it</h2>
+<div class="panel">
+  <table>
+    <tr><th>Check</th><th>Value in this assertion</th><th class="note">Why it matters</th></tr>
+    <tr><td class="claim">Signature</td><td class="value">Valid, signed by Okta's certificate from its metadata</td><td class="note">Proves Okta created it and nobody changed a byte since.</td></tr>
+    <tr><td class="claim">Issuer</td><td class="value">{{ a.issuer }}</td><td class="note">Must be the IdP this app trusts, not some other one.</td></tr>
+    <tr><td class="claim">Audience</td><td class="value">{{ a.audience }}</td><td class="note">Must be this app's entity ID, so an assertion meant for another app can't be replayed here.</td></tr>
+    <tr><td class="claim">InResponseTo</td><td class="value">{{ a.in_response_to or 'none (IdP-initiated)' }}</td><td class="note">Ties the response to the request this app sent, blocking unsolicited or replayed responses.</td></tr>
+    <tr><td class="claim">Issued</td><td class="value">{{ stamps.issued_at }}</td><td class="note">When Okta created the assertion.</td></tr>
+    <tr><td class="claim">NotOnOrAfter</td><td class="value">{{ stamps.not_on_or_after }}</td><td class="note">After this, the assertion must be rejected. Okta keeps the window short.</td></tr>
+    <tr><td class="claim">Assertion ID</td><td class="value">{{ a.assertion_id }}</td><td class="note">Unique ID, useful for correlating with Okta's System Log.</td></tr>
+  </table>
+</div>
+
+<h2>Who the user is</h2>
+<div class="panel">
+  <table>
+    <tr><th>Field</th><th>Value</th><th class="note">What it means</th></tr>
+    <tr><td class="claim">NameID</td><td class="value">{{ a.name_id }}</td><td class="note">The user's identifier for this app, here their email.</td></tr>
+    <tr><td class="claim">NameID format</td><td class="value">{{ a.name_id_format }}</td><td class="note">How to interpret the NameID.</td></tr>
+    <tr><td class="claim">SessionIndex</td><td class="value">{{ a.session_index }}</td><td class="note">Okta's ID for this sign-in session, used for single logout.</td></tr>
+  </table>
+</div>
+
+<h2>Attributes</h2>
+<div class="panel">
+  <table>
+    <tr><th>Attribute</th><th>Value</th></tr>
+    {% for name, values in a.attributes.items() %}
+      <tr><td class="claim">{{ name }}</td><td class="value">{{ values | join(', ') }}</td></tr>
+    {% endfor %}
+  </table>
+  <p class="dim">These come from the attribute statements configured on the Okta app. Groups are filtered to Vault101 groups only.</p>
+</div>
+
+<h2>Raw SAML response</h2>
+<p class="dim">The full XML Okta posted back, pretty-printed. Find the Issuer, the Signature, the Subject, the Conditions, and the AttributeStatement.</p>
+<pre>{{ a.xml }}</pre>
+{% endblock %}

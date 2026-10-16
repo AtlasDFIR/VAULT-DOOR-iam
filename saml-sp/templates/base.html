@@ -64,11 +64,11 @@
 </head>
 <body>
   <header>
-    <span class="brand">VAULT-DOOR // OIDC TERMINAL</span>
+    <span class="brand">VAULT-DOOR // SAML TERMINAL</span>
     <nav>
       <a href="{{ url_for('index') }}">Home</a>
       {% if session.get('sid') %}
-        <a href="{{ url_for('tokens') }}">Token inspector</a>
+        <a href="{{ url_for('assertion') }}">Assertion inspector</a>
         <a href="{{ url_for('logout') }}">Sign out</a>
       {% endif %}
     </nav>

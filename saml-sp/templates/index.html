@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block content %}
+{% if user %}
+  <h1>Access granted. Welcome, {{ (user.attributes.get('firstName') or [''])[0] }} {{ (user.attributes.get('lastName') or [''])[0] }}.</h1>
+  <div class="panel">
+    <table>
+      <tr><th>Field</th><th>Value</th></tr>
+      <tr><td class="claim">NameID</td><td class="value">{{ user.name_id }}</td></tr>
+      <tr><td class="claim">Groups</td><td class="value">{{ (user.attributes.get('groups') or ['none returned']) | join(', ') }}</td></tr>
+      <tr><td class="claim">Session index</td><td class="value">{{ user.session_index }}</td></tr>
+    </table>
+  </div>
+  <p>
+    <a class="button" href="{{ url_for('assertion') }}">Inspect assertion</a>
+    <a class="button" href="{{ url_for('logout') }}">Sign out</a>
+  </p>
+  <p class="dim">Signing out here ends this app's session only. Your Okta session stays active until you close the window.</p>
+{% else %}
+  <h1>Vault 101 entry terminal (SAML)</h1>
+  <div class="panel">
+    <p>This app trusts Okta to vouch for who you are. It never sees a password.</p>
+    <p class="dim">
+      Clicking below sends your browser to Okta with a SAML authentication request.
+      After you sign in, Okta posts a digitally signed assertion back through your browser,
+      and this app checks the signature, audience, timing, and request ID before trusting it.
+    </p>
+  </div>
+  <p><a class="button" href="{{ url_for('login') }}">Enter the Vault</a></p>
+  <p class="dim">Sign in as a test user, never as your Okta admin account. This app's own metadata is at <a href="{{ url_for('metadata') }}">/saml/metadata</a>.</p>
+{% endif %}
+{% endblock %}

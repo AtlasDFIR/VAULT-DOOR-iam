@@ -68,5 +68,5 @@ sequenceDiagram
 
 ## Notes
 
-
+- The assertion's AuthnContextClassRef was PasswordProtectedTransport even though the sign-in used a passkey. That value is a fixed setting on the Okta app, not a record of what happened, so it can't be used to prove how a user authenticated. The OIDC `amr` claim was the more accurate signal.
 

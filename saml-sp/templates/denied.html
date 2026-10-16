@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Access denied | VAULT-DOOR{% endblock %}
+{% block content %}
+<h1 class="bad">Assertion rejected</h1>
+<div class="panel">
+  <table>
+    <tr><th>Field</th><th>Value</th></tr>
+    <tr><td class="claim">errors</td><td class="value">{{ errors | join(', ') if errors else 'none listed' }}</td></tr>
+    <tr><td class="claim">reason</td><td class="value">{{ reason }}</td></tr>
+  </table>
+</div>
+<p>
+  This app received a SAML response but refused to trust it. The reason above says which check failed:
+  signature, audience, destination, timing, or a response that doesn't match a request this app sent.
+</p>
+<p><a class="button" href="{{ url_for('index') }}">Back to the entry terminal</a></p>
+{% endblock %}
