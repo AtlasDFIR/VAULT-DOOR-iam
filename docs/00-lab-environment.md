@@ -45,6 +45,8 @@ Test users use plus addressing so each has a unique, deliverable email address w
 |-|-|
 |2026-10-15|Created Okta org, two groups, three test users|
 |2026-10-15|Installed Docker Desktop (per-user mode, WSL 2 backend)|
+|2026-10-16|Created VAULT-DOOR Access policy|
+|2026-10-16|Ran lifecycle tests|
 
 
 

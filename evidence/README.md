@@ -31,3 +31,10 @@ Screenshots proving each part of the lab works, organized by part.
 | 3 | `part3/05-assertion-inspector.png` | Checks passed and attributes, signature truncated |
 | 3 | `part3/06-saml-tracer.png` | SAML-tracer capture of the AuthnRequest and signed response |
 | 3 | `part3/07-denied-drifter.png` | Riley Crane refused by Okta |
+| 4 | `part4/01-policy-rules.png` | VAULT-DOOR Access rules in priority order |
+| 4 | `part4/02-policy-apps.png` | Both VAULT-DOOR apps assigned to the policy |
+| 4 | `part4/03-overseer-reprompt.png` | Morgan prompted again when opening the second app |
+| 4 | `part4/04-mover-groups.png` | Morgan's groups after removal from Vault101-Security |
+| 4 | `part4/05-leaver-session.png` | Suspended user still inside an existing app session |
+| 4 | `part4/06-leaver-denied.png` | Suspended user refused on a new sign-in |
+| 4 | `part4/07-system-log.png` | System Log events from the Part 4 tests |
